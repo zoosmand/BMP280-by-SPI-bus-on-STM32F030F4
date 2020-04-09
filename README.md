@@ -5,7 +5,7 @@
 Slight precaution!
 
 
-The original bug or feature of STM32F0 series concerns SPI bus. When 8-bit width data bus is expected, it has to send 8-bit data into SPI bus as well. Unfortunately, an MC can not recognize 8-bit or 16-bit data has been sent. Although, when assembler is used , there is no problem or the problem has to be solved by using STRB command. like this:
+The original bug or feature of STM32F0 series concerns SPI bus. When 8-bit width data bus is expected, it has to send 8-bit data into SPI bus as well. Unfortunately, an MC can not recognize 8-bit or 16-bit data had been sent. Although, when assembler is used , there is no problem or the problem has to be solved by using STRB command. like this:
 
 STRB trPacket, [tmpa, #SPI1_DR_Offset]
  
