@@ -42,7 +42,7 @@ void SPI1_Init(void) {
   SET_BIT(SPI1->CR2, (SPI_CR2_FRXTH | SPI_CR2_SSOE));
 
   /* Set software NSS master */
-  /* Set baud rate fPCLK/4, 12Mb/s */
+  /* Set baud rate fPCLK/4, 6Mb/s */
   /* Enbale master SPI */
   /* Enbale SPI */
   SET_BIT(SPI1->CR1, (SPI_CR1_SSM | SPI_CR1_BR_0 | SPI_CR1_BR_1 | SPI_CR1_MSTR | SPI_CR1_SPE));
@@ -97,19 +97,14 @@ void SPI_Read(uint8_t *buf, uint8_t cnt) {
 
   *(__IO uint8_t*)&SPI1->DR = buf[0];
   while (!(READ_BIT(SPI1->SR, SPI_SR_TXE)));
-  while (READ_BIT(SPI1->SR, SPI_SR_RXNE)) {
-    SPI1->DR;
-  }
+  while (!(READ_BIT(SPI1->SR, SPI_SR_RXNE)));
+  SPI1->DR;
   
-  // !!!!!!!!!!!
-  cnt +=3;
-
   while (cnt--) {
     *(__IO uint8_t*)&SPI1->DR = 0;
     while (!(READ_BIT(SPI1->SR, SPI_SR_TXE)));
-    while (READ_BIT(SPI1->SR, SPI_SR_RXNE)) {
-      *buf++ = (uint8_t)SPI1->DR;
-    }
+    while (!(READ_BIT(SPI1->SR, SPI_SR_RXNE)));
+    *buf++ = (uint8_t)SPI1->DR;
   }
     
   NSS_0_H;
@@ -131,15 +126,12 @@ void SPI_Write(uint8_t *buf, uint8_t cnt) {
   NSS_0_L;
   while (PIN_LEVEL(SPI_Port, NSS_0_Pin));
 
-  cnt += 3;
-
   if (cnt) {
     while (cnt--) {
       *(__IO uint8_t*)&SPI1->DR = *buf++;
       while (!(READ_BIT(SPI1->SR, SPI_SR_TXE)));
-      while (READ_BIT(SPI1->SR, SPI_SR_RXNE)) {
-        SPI1->DR;
-      }
+      while (!(READ_BIT(SPI1->SR, SPI_SR_RXNE)));
+      SPI1->DR;
     }
   }
     

@@ -20,11 +20,21 @@
 
 typedef struct {
   uint8_t   ID;
-  uint8_t   ManID;
-  uint8_t   Type;
-  uint64_t  UniqID;
-  uint16_t  BlockCount;
-  uint32_t  Capacity;
+  uint16_t  T1;
+  int16_t   T2;
+  int16_t   T3;
+  uint16_t  P1;
+  int16_t   P2;
+  int16_t   P3;
+  int16_t   P4;
+  int16_t   P5;
+  int16_t   P6;
+  int16_t   P7;
+  int16_t   P8;
+  int16_t   P9;
+  uint8_t   H1;
+  int16_t   H2;
+  uint8_t   H3;
   uint8_t   Lock;	
 } bmx280_t;
 
@@ -64,6 +74,8 @@ typedef struct {
 typedef int32_t               BMP280_S32_t;
 typedef uint32_t              BMP280_U32_t;
 
+
+extern bmx280_t bmx280;
 
 /* Exported functions prototypes ---------------------------------------------*/
 uint8_t BMP280_Init(void);
